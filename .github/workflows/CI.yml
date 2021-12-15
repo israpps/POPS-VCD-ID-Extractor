@@ -1,0 +1,49 @@
+name: CI
+
+on:
+  push:
+    branches:
+      - '*'
+    tags:
+      - v*
+  pull_request:
+  repository_dispatch:
+    types: [run_build]
+
+jobs:
+  build-win:
+    runs-on: ubuntu-latest
+    container: dockcross/windows-static-x86:latest
+    steps:
+
+    - uses: actions/checkout@v2
+    - run: |
+        git fetch --prune --unshallow
+
+    - name: Compile project
+      run: |
+        mkdir build
+        cd build
+        cmake ..
+        make clean all
+        ls -r
+
+    - name: Upload artifacts
+      if: ${{ success() }}
+      uses: actions/upload-artifact@v2
+      with:
+        name: POPS-VCD-ID-Extractor
+        path: |
+             build/POPS-VCD-ID-Extractor.exe
+
+    - name: Deploy pre-release
+      uses: softprops/action-gh-release@v1
+      if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
+      with:
+        token: "${{ secrets.GITHUB_TOKEN }}"
+        fail_on_unmatched_files: true
+        files: |
+            build/POPS-VCD-ID-Extractor.exe
+        name: "Latest build"
+        tag_name: "Latest"
+        prerelease: true
