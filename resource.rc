@@ -1,0 +1,30 @@
+#define VOS_NT_WINDOWS32    0x00040004L
+#define VFT_APP                      0x00000001L
+#include "version.h"
+//A ICON MOVEABLE PURE LOADONCALL DISCARDABLE "exeicn.ico"
+
+1 VERSIONINFO
+FILEVERSION RC_FILEVERSION
+
+FILETYPE VFT_APP
+{
+  BLOCK "StringFileInfo"
+	 {
+		 BLOCK "040904E4"
+		 {
+			 VALUE "CompanyName", "Matías Israelson (AKA: El_isra)"
+			 VALUE "FileVersion", "1, 0, 0, 0\0"
+			 VALUE "FileDescription", "ELF ID detector for PS1 POPS VCD files"
+			 VALUE "InternalName", "POPS-VCD-ID-Extractor"
+			 VALUE "LegalCopyright", " "
+			 VALUE "LegalTrademarks", " "
+			 VALUE "OriginalFilename", "POPS-VCD-ID-Extractor.exe"
+			 VALUE "ProductName", "POPS VCD ID Extractor"
+			 VALUE "ProductVersion", "1, 0, 0, 0\0"
+		 }
+	 }
+  BLOCK "VarFileInfo"
+	 {
+		 VALUE "Translation", 0x0409, 1252 //language codes
+	 }
+}
