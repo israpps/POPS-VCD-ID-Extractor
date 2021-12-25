@@ -31,13 +31,13 @@ int main(int argc, char**argv)
 {
     int ret;
     long VCD_SIZE; 
-    if (argc < 2) {ret = NO_ARGV1; goto ERR;}
+    if (argc < 2) {std::cerr << "No file provided\n"; return NO_ARGV1;}
     char buffer[ELF_SEARCH_RANGE+1];
     const regex ELF_ID_NAME("[A-Z][A-Z][A-Z][A-Z]_[0-9][0-9][0-9].[0-9][0-9]");
     
    VCD_SIZE = Get_FileSize(argv[1]);
    if (VCD_SIZE < (ELF_SEARCH_OFFSET + ELF_SEARCH_RANGE))
-			  {ret = VCD_IS_SMALL; goto ERR;}
+			  {std::cerr <<"File is too small to process\n\t VCD's should be at least "<< (ELF_SEARCH_OFFSET + ELF_SEARCH_RANGE)<<" bytes in length\n"; return VCD_IS_SMALL;}
     ifstream VCD_STREAM(argv[1]);
      
     if(VCD_STREAM.is_open())
@@ -56,28 +56,9 @@ int main(int argc, char**argv)
         {
             std::cout << match[0] <<endl;
         } else 
-			{ret = REGEX_FAIL; goto ERR;}
+			{std::cerr << "regex couldn't find a ELF ID matching pattern\n"; return REGEX_FAIL;}
     } else 
-		{ret = CANT_OPEN; goto ERR;}
+		{std::cerr << "Error while opening ["<<argv[1]<<"]\n"; return CANT_OPEN;}
 
-    return 0;
-    ERR:
-    switch (ret)
-    {
-		case NO_ARGV1:
-		std::cerr << "No file provided\n";
-		break;
-		case CANT_OPEN:
-		std::cerr << "Error while opening ["<<argv[1]<<"]\n";
-		break;
-		case REGEX_FAIL:
-		std::cerr << "regex couldn't find a ELF ID matching pattern\n";
-		break;
-		case VCD_IS_SMALL:
-		std::cerr <<"File is too small to process\n\t VCD's should be at least "<< (ELF_SEARCH_OFFSET + ELF_SEARCH_RANGE)<<" kbytes in length\n";
-		break;
-		default:
-		std::cerr <<"Unhandled error code...\n";
-    }
-	return ret;
+    return 0; //SUCCESS
 }
