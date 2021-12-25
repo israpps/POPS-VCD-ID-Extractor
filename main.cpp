@@ -7,6 +7,8 @@
 #include <fstream>
 #include <regex>
 
+#define ELF_SEARCH_RANGE  4096 //needs testing
+#define ELF_SEARCH_OFFSET 1100032
 using namespace std;
 
 enum RET_TABLE
@@ -20,18 +22,18 @@ enum RET_TABLE
 int main(int argc, char**argv)
 {
     if (argc < 2) return NO_ARGV1;
-    char buffer[4096+1];
+    char buffer[ELF_SEARCH_RANGE+1];
     const regex ELF_ID_NAME("[A-Z][A-Z][A-Z][A-Z]_[0-9][0-9][0-9].[0-9][0-9]");
     ifstream VCD_STREAM(argv[1]);
 
     if(VCD_STREAM.is_open())
     {
-        VCD_STREAM.seekg(1100032,ios_base::beg);
-        VCD_STREAM.read(buffer,4096);
-        for(int i=0; i<4096; i++)
+        VCD_STREAM.seekg(ELF_SEARCH_OFFSET,ios_base::beg);
+        VCD_STREAM.read(buffer,ELF_SEARCH_RANGE);
+        for(int i=0; i<ELF_SEARCH_RANGE; i++)
             buffer[i]=buffer[i]<32?',':buffer[i];
 
-        buffer[4096]=0;
+        buffer[ELF_SEARCH_RANGE]=0;
 
         smatch match;
         string str(buffer);
