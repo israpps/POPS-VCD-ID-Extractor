@@ -6,7 +6,7 @@
 #include <iostream>
 #include <fstream>
 #include <regex>
-
+#include <sys/stat.h>
 #define ELF_SEARCH_RANGE  4096 //needs testing
 #define ELF_SEARCH_OFFSET 1100032
 using namespace std;
