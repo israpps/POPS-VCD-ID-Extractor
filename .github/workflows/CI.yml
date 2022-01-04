@@ -27,7 +27,16 @@ jobs:
         cmake .. -DCMAKE_BUILD_TYPE=Release
         make clean all
         ls -r
-
+        
+    - name: delete previous tag/release
+      if: (github.ref == 'refs/heads/master' || github.ref == 'refs/heads/main')
+      uses: dev-drprasad/delete-tag-and-release@v0.2.0
+      with:
+        delete_release: true
+        tag_name: Latest
+      env:
+      
+       GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
     - name: Upload artifacts
       if: ${{ success() }}
       uses: actions/upload-artifact@v2
