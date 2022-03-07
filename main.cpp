@@ -20,7 +20,7 @@ enum RET_TABLE
   VCD_IS_SMALL,
 };
 
-long Get_FileSize(const char* filename)
+size_t Get_FileSize(const char* filename)
 {
     struct stat stat_buf;
     int rc = stat(filename, &stat_buf);
@@ -30,16 +30,16 @@ long Get_FileSize(const char* filename)
 int main(int argc, char**argv)
 {
     int ret;
-    long VCD_SIZE; 
+    size_t VCD_SIZE; 
     if (argc < 2) {std::cerr << "No file provided\n"; return NO_ARGV1;}
     char buffer[ELF_SEARCH_RANGE+1];
     const regex ELF_ID_NAME("[A-Z][A-Z][A-Z][A-Z]_[0-9][0-9][0-9].[0-9][0-9]");
-    
+
    VCD_SIZE = Get_FileSize(argv[1]);
    if (VCD_SIZE < (ELF_SEARCH_OFFSET + ELF_SEARCH_RANGE))
-			  {std::cerr <<"File is too small to process\n\t VCD's should be at least "<< (ELF_SEARCH_OFFSET + ELF_SEARCH_RANGE)<<" bytes in length\n"; return VCD_IS_SMALL;}
+			  {std::cerr <<"File is ["<< VCD_SIZE << "] bytes in length \n\t VCD's should be at least ["<< (ELF_SEARCH_OFFSET + ELF_SEARCH_RANGE)<<"] bytes in length to be processed\n"; return VCD_IS_SMALL;}
     ifstream VCD_STREAM(argv[1]);
-     
+
     if(VCD_STREAM.is_open())
     {
         VCD_STREAM.seekg(ELF_SEARCH_OFFSET,ios_base::beg);
