@@ -33,7 +33,7 @@ int main(int argc, char**argv)
     size_t VCD_SIZE; 
     if (argc < 2) {std::cerr << "No file provided\n"; return NO_ARGV1;}
     char buffer[ELF_SEARCH_RANGE+1];
-    const regex ELF_ID_NAME("907127.001|[A-Z][A-Z][A-Z][0-9][0-9][0-9][0-9][0-9].[0-9][0-9][0-9]|[A-Z][A-Z][A-Z][A-Z][_-][0-9][0-9][0-9].[0-9][0-9]");
+    const regex ELF_ID_NAME("[0-9][0-9][0-9][0-9][0-9][0-9].[0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9].[0-9][0-9][0-9]|[A-Z][A-Z][A-Z][A-Z][_-][0-9][0-9][0-9].[0-9][0-9]");
 
    VCD_SIZE = Get_FileSize(argv[1]);
    if (VCD_SIZE < (ELF_SEARCH_OFFSET + ELF_SEARCH_RANGE))
