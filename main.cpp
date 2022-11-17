@@ -9,7 +9,6 @@
 #include <sys/stat.h>
 #define ELF_SEARCH_RANGE  4096 //needs testing
 #define ELF_SEARCH_OFFSET 1100032
-#define SLPS-02414_OFFSET 1753440
 using namespace std;
 
 enum RET_TABLE
@@ -34,8 +33,7 @@ int main(int argc, char**argv)
     size_t VCD_SIZE; 
     if (argc < 2) {std::cerr << "No file provided\n"; return NO_ARGV1;}
     char buffer[ELF_SEARCH_RANGE+1];
-    const regex ELF_ID_NAME("[0-9][0-9][0-9][0-9][0-9][0-9].[0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9].[0-9][0-9][0-9]|[A-Z][A-Z][A-Z][A-Z][_-][0-9][0-9][0-9].[0-9][0-9]|SLPS-02414");
-    const regex ELF_ID_NAME("SLPS-02414");
+    const regex ELF_ID_NAME("[0-9][0-9][0-9][0-9][0-9][0-9].[0-9][0-9][0-9]|[0-9][0-9][0-9][0-9][0-9].[0-9][0-9][0-9]|[A-Z][A-Z][A-Z][A-Z][_-][0-9][0-9][0-9].[0-9][0-9]");
 	
    VCD_SIZE = Get_FileSize(argv[1]);
    if (VCD_SIZE < (ELF_SEARCH_OFFSET + ELF_SEARCH_RANGE))
